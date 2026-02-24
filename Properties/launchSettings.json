@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "ExecuteAllProceduresFromSinister": {
+      "commandName": "Executable",
+      "executablePath": "func",
+      "commandLineArgs": "host start --port 7072 --verbose --csharp",
+      "workingDirectory": "$(ProjectDir)",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "AZURE_FUNCTIONS_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
