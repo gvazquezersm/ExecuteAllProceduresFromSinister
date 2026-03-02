@@ -294,6 +294,8 @@ namespace ExecuteAllProceduresFromSinister
             if (casePatternRegexMatch != null)
             {
                 var stringPatternMatch = Regex.Match(subject, casePatternRegexMatch.PatternRegex, RegexOptions.IgnoreCase);
+                _log.LogInformation("[DEBUG] MATCH VALUE: '{Value}' | Length: {Len}", stringPatternMatch.Value, stringPatternMatch.Value.Length);
+
                 if (stringPatternMatch != null && stringPatternMatch.Success)
                 {
                     dataReferenceModel.IsGenericTask = casePatternRegexMatch.IsGenericTask;
