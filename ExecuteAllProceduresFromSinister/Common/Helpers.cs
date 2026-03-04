@@ -411,6 +411,17 @@ namespace ExecuteAllProceduresFromSinister.Common
                     }
                 },
 
+                // Casos 154-155: MGS - email específico para garantizar prioridad sobre dominio
+                new DataGenericMailModel<IEnumerable<DataActionMailModel>>()
+                {
+                    Case = "enviosautomaticosweb@mgs.es",
+                    Data = new List<DataActionMailModel>()
+                    {
+                        new DataActionMailModel(SubjectCasesConstants.CaseMgsApertura, new Func<string,string,string>(GetRefFromSubjectReplaced)),
+                        new DataActionMailModel(SubjectCasesConstants.CaseMgsNuevaAccion, new Func<string,string,string>(GetRefFromSubjectReplaced)),
+                    }
+                },
+
             };
 
             return list;
@@ -563,6 +574,7 @@ namespace ExecuteAllProceduresFromSinister.Common
                         new DataDomainMailModel(SubjectCasesConstants.CaseSinister, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseSinisterWithoutSpace),
                         new DataDomainMailModel(SubjectCasesConstants.CaseSinisterWithSpace, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseSinisterWithSpace),
                         new DataDomainMailModel(SubjectCasesConstants.CaseSinisterZurich, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseSinisterZurich),
+
                     }
                 },
                 new DataGenericMailModel<IEnumerable<DataDomainMailModel>>()
@@ -769,13 +781,15 @@ namespace ExecuteAllProceduresFromSinister.Common
                     }
                 },
 
-                // Casos 150-151: Generali - el asunto completo es la referencia numérica
+                // Casos 150-151: Asitur/Generali - el asunto completo ES la referencia
+                // Formatos: numérico puro, alfanumérico, con guiones/espacios
                 new DataGenericMailModel<IEnumerable<DataDomainMailModel>>()
                 {
                     Case = "asitur.es",
                     Data = new List<DataDomainMailModel>
                     {
                         new DataDomainMailModel(string.Empty, new Func<string, string, string>(GetSubjectTrimmed), null, PatternRegexConstants.CaseOnlyNumbers),
+                        new DataDomainMailModel(string.Empty, new Func<string, string, string>(GetSubjectTrimmed), null, PatternRegexConstants.CaseAlphanumericRef),
                     }
                 },
 
@@ -792,12 +806,15 @@ namespace ExecuteAllProceduresFromSinister.Common
                 },
 
                 // Caso 158: Generali TMT - "148614271/TMT(RD023)(085182559)"
+                // Casos 150-151 v2: Generali - asunto solo numérico (csm.siniestros.bi@generalion.es)
                 new DataGenericMailModel<IEnumerable<DataDomainMailModel>>()
                 {
                     Case = "generalion.es",
                     Data = new List<DataDomainMailModel>
                     {
                         new DataDomainMailModel(SubjectCasesConstants.CaseGeneralionTmt, new Func<string, string, string>(GetSubjectTrimmed), null, PatternRegexConstants.CaseGeneralionTmt),
+                        new DataDomainMailModel(string.Empty, new Func<string, string, string>(GetSubjectTrimmed), null, PatternRegexConstants.CaseOnlyNumbers),
+                        new DataDomainMailModel(string.Empty, new Func<string, string, string>(GetSubjectTrimmed), null, PatternRegexConstants.CaseAlphanumericRef),
                     }
                 },
 
@@ -817,8 +834,8 @@ namespace ExecuteAllProceduresFromSinister.Common
                     Case = "mgs.es",
                     Data = new List<DataDomainMailModel>
                     {
-                        new DataDomainMailModel(SubjectCasesConstants.CaseMgsApertura, new Func<string, string, string>(GetFirstElementSplitFromSubject)),
-                        new DataDomainMailModel(SubjectCasesConstants.CaseMgsNuevaAccion, new Func<string, string, string>(GetFirstElementSplitFromSubject)),
+                        new DataDomainMailModel(SubjectCasesConstants.CaseMgsApertura,new Func<string, string, string>(GetRefFromSubjectReplaced)),
+                        new DataDomainMailModel(SubjectCasesConstants.CaseMgsNuevaAccion,new Func<string, string, string>(GetRefFromSubjectReplaced)),
                     }
                 },
             };

@@ -43,8 +43,12 @@
         // ── Caso 134: Mutua de Propietarios ("Siniestro : xxx") ───────────────────
         public const string CaseSiniestroSpaceColon = @"siniestro : [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+";
 
-        // ── Casos 150-151: Generali (asunto = referencia numérica) ────────────────
+        // ── Casos 150-151: Generali (asunto = referencia numérica pura) ─────────────
         public const string CaseOnlyNumbers = @"^[0-9]+$";
+
+        // ── Asitur: referencias alfanuméricas con guiones/espacios ────────────────
+        // Cubre: "GUV26336362281", "G-3H-26-16606938", "G - 5E - 26 - 33604392 -", etc.
+        public const string CaseAlphanumericRef = @"^[a-zA-Z0-9][a-zA-Z0-9\s\-]*$";
 
         // ── Caso Generali TMT: 148614271/TMT(RD023)(085182559) ──────────────────
         public const string CaseGeneralionTmt = @"[0-9]+\/TMT";
