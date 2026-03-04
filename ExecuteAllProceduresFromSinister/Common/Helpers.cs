@@ -255,9 +255,16 @@ namespace ExecuteAllProceduresFromSinister.Common
                 if (pdfReader != null)
                 {
                     var stringBuilder = new StringBuilder();
-                    for (int i = 0; i < pdfReader.NumberOfPages; i++)
+                    for (int i = 1; i <= pdfReader.NumberOfPages; i++)
                     {
-                        stringBuilder.Append(PdfTextExtractor.GetTextFromPage(pdfReader, i));
+                        try
+                        {
+                            stringBuilder.Append(PdfTextExtractor.GetTextFromPage(pdfReader, i));
+                        }
+                        catch
+                        {
+                            // página sin contenido extraíble (imagen, cifrada, etc.)
+                        }
                     }
 
                     if (stringBuilder.Length > 0)
