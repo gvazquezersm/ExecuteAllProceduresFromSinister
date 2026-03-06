@@ -78,10 +78,10 @@
         // ── Casos 109-117: Catalanaoccidente / Occidente ──────────────────────────
         public const string CaseSinisterHogar = "Siniestro Hogar -";
         public const string CaseSinisterComunidad = "Siniestro Comunidad. -";
-        public const string CaseSinisterComercios = "Siniestro Comercios  -";
+        public const string CaseSinisterComercios = "Siniestro Comercios -";
         public const string CaseTramitadorSinHogar = "Tramitador Siniestro Hogar -";
         public const string CaseTramitadorSinComunidad = "Tramitador Siniestro Comunidad. -";
-        public const string CaseTramitadorSinComercios = "Tramitador Siniestro Comercios  -";
+        public const string CaseTramitadorSinComercios = "Tramitador Siniestro Comercios -";
         public const string CaseTramitadorSinAutoMovil = "Tramitador Siniestro Automov. -";
         public const string CaseTramitadorSinRCProfes = "Tramitador Siniestro RC.profes. -";
         public const string CaseTramitadorSinRCPrInm = "Tramitador Siniestro RC.pr.inm. -";
