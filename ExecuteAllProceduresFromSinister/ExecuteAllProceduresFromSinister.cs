@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -267,11 +266,40 @@ namespace ExecuteAllProceduresFromSinister
                             dataReferenceModel = GetDataReferenceFromSubjectCaseNotSpecific(subject, anyCaseOnlySubject);
                             dataReferenceModel.IsSinAlias = true;
                         }
+
+                        // Último recurso: IA (Groq) si ningún patrón ha resuelto la referencia
+                        if (string.IsNullOrEmpty(dataReferenceModel.Reference) && IsAiExtractionEnabled())
+                        {
+                            _log.LogInformation("[AI] No pattern matched. Attempting Groq extraction. Subject: {Subject} | Mail: {Mail}", subject, originMail);
+                            var aiReference = GetReferenceFromAiAsync(subject, originMail).GetAwaiter().GetResult();
+                            if (!string.IsNullOrEmpty(aiReference))
+                            {
+                                _log.LogInformation("[AI] Groq extracted reference: {Ref}", aiReference);
+                                dataReferenceModel.Reference = aiReference;
+                                dataReferenceModel.IsGenericTask = true;
+                                dataReferenceModel.IsSinAlias = false;
+                            }
+                            else
+                            {
+                                _log.LogInformation("[AI] Groq could not extract a reference.");
+                            }
+                        }
                     }
                 }
             }
 
             return dataReferenceModel;
+        }
+
+        private static bool IsAiExtractionEnabled()
+        {
+            var value = Environment.GetEnvironmentVariable("EnableAiExtraction");
+            return bool.TryParse(value, out var enabled) && enabled;
+        }
+
+        private static async Task<string> GetReferenceFromAiAsync(string subject, string originMail)
+        {
+            return await GroqClientService.ExtractSinisterReferenceAsync(subject, originMail);
         }
 
         private static string GetReferenceFromSubjectCaseSpecific(string subject, DataGenericMailModel<IEnumerable<DataActionMailModel>> casesSpecificFilterFromMail)
