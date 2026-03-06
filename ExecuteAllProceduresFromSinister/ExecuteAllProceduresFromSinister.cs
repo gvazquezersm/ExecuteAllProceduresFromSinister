@@ -155,6 +155,7 @@ namespace ExecuteAllProceduresFromSinister
                         if (!successCreateTask)
                         {
                             await AddLogLogicApp(automationMailHeaderFilterDto.OriginMail, automationMailHeaderFilterDto.Subject, "Create Task New Email Generic failed!");
+                            _log.LogError("[STEP: TASK-GENERIC][FAILED] No se pudo crear la tarea genérica. SinisterId: {SinisterId}", sinisterData.SinisterId);
                         }
                     }
                     else
@@ -164,6 +165,7 @@ namespace ExecuteAllProceduresFromSinister
                         if (!successCreateTask)
                         {
                             await AddLogLogicApp(automationMailHeaderFilterDto.OriginMail, automationMailHeaderFilterDto.Subject, "Fallo al crear la tarea de nuevo correo de Compañía");
+                            _log.LogError("[STEP: TASK-CIA][FAILED] No se pudo crear la tarea de compañía. SinisterId: {SinisterId}", sinisterData.SinisterId);
                         }
                     }
 
@@ -174,13 +176,23 @@ namespace ExecuteAllProceduresFromSinister
             else
             {
                 await AddLogLogicApp(automationMailHeaderFilterDto.OriginMail, automationMailHeaderFilterDto.Subject, "Datos del siniestro no encontrados");
+                _log.LogWarning("[STEP: SINISTER-DATA][NOT FOUND] No se encontraron datos del siniestro. Mail: {Mail} | Subject: {Subject}",
+                    automationMailHeaderFilterDto.OriginMail, automationMailHeaderFilterDto.Subject);
             }
 
             return result;
         }
 
+        private static bool IsApiLogEnabled()
+        {
+            var value = Environment.GetEnvironmentVariable("AllowLogLogicApps");
+            return bool.TryParse(value, out var enabled) && enabled;
+        }
+
         private static async Task AddLogLogicApp(string originMail, string subject, string observations)
         {
+            if (!IsApiLogEnabled()) return;
+
             try
             {
                 var addLogicAppDto = new AddLogsLogicAppDto()
@@ -194,7 +206,7 @@ namespace ExecuteAllProceduresFromSinister
             }
             catch (System.Exception e)
             {
-                Debug.WriteLine(e);
+                _log.LogWarning("[LOG-API] Fallo al registrar log en API: {Error}", e.Message);
             }
         }
 

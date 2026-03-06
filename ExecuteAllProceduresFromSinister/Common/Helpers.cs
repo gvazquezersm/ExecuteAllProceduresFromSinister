@@ -353,6 +353,17 @@ namespace ExecuteAllProceduresFromSinister.Common
             return data;
         }
 
+        /// <summary>
+        /// Devuelve el último token (separado por espacio) del fragmento capturado por regex.
+        /// Útil para patrones como "siniestro núm. 1234567" donde la referencia es el último elemento.
+        /// </summary>
+        public static string GetLastTokenFromMatch(string subjectRequest, string subjectCase)
+        {
+            if (string.IsNullOrEmpty(subjectRequest)) return string.Empty;
+            var parts = subjectRequest.Trim().Split(' ');
+            return parts.LastOrDefault()?.Trim() ?? string.Empty;
+        }
+
         public static List<DataGenericMailModel<IEnumerable<DataActionMailModel>>> GetActionsMailSpecificCases()
         {
             var list = new List<DataGenericMailModel<IEnumerable<DataActionMailModel>>>()
@@ -360,6 +371,17 @@ namespace ExecuteAllProceduresFromSinister.Common
                 new DataGenericMailModel<IEnumerable<DataActionMailModel>>()
                 {
                     Case = "cts.autosnoreste@allianz.es",
+                    Data = new List<DataActionMailModel>()
+                    {
+                        new DataActionMailModel(SubjectCasesConstants.CaseOne, new Func<string,string,string>(GetRefFromSubjectReplaced)),
+                        new DataActionMailModel(SubjectCasesConstants.CaseSix, new Func<string,string,string>(GetRefFromSubjectReplaced)),
+                        new DataActionMailModel(SubjectCasesConstants.CaseEight, new Func<string,string,string>(GetRefFromSubjectReplaced)),
+                    }
+                },
+                // Casos 144-146: cts.atenciondirecta@allianz.es — mismos asuntos que autosnoreste
+                new DataGenericMailModel<IEnumerable<DataActionMailModel>>()
+                {
+                    Case = "cts.atenciondirecta@allianz.es",
                     Data = new List<DataActionMailModel>()
                     {
                         new DataActionMailModel(SubjectCasesConstants.CaseOne, new Func<string,string,string>(GetRefFromSubjectReplaced)),
@@ -426,6 +448,26 @@ namespace ExecuteAllProceduresFromSinister.Common
                     {
                         new DataActionMailModel(SubjectCasesConstants.CaseMgsApertura, new Func<string,string,string>(GetRefFromSubjectReplaced)),
                         new DataActionMailModel(SubjectCasesConstants.CaseMgsNuevaAccion, new Func<string,string,string>(GetRefFromSubjectReplaced)),
+                    }
+                },
+
+                // Casos 121-122: siniestros.diversos@zurich.com — "...siniestro núm. xxxxxxxxxx"
+                new DataGenericMailModel<IEnumerable<DataActionMailModel>>()
+                {
+                    Case = "siniestros.diversos@zurich.com",
+                    Data = new List<DataActionMailModel>()
+                    {
+                        new DataActionMailModel(SubjectCasesConstants.CaseSinisterNum, new Func<string,string,string>(GetLastTokenFromMatch)),
+                    }
+                },
+
+                // Caso 123: noreply@zurich.com — "Información sobre el siniestro nº xxxxxxxxxx"
+                new DataGenericMailModel<IEnumerable<DataActionMailModel>>()
+                {
+                    Case = "noreply@zurich.com",
+                    Data = new List<DataActionMailModel>()
+                    {
+                        new DataActionMailModel(SubjectCasesConstants.CaseFourtyOne, new Func<string,string,string>(GetLastTokenFromMatch)),
                     }
                 },
 
@@ -571,8 +613,9 @@ namespace ExecuteAllProceduresFromSinister.Common
                     Case = "zurich.com",
                     Data = new List<DataDomainMailModel>
                     {
+                        // Caso 123: "Información sobre el siniestro nº xxxxxxxxxx" (noreply@zurich.com)
                         new DataDomainMailModel(SubjectCasesConstants.CaseFourtyOne, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseFourtyOne),
-                        // Casos 121-122: "...siniestro núm. xxxxxxxxxx"
+                        // Casos 121-122: "...siniestro núm. xxxxxxxxxx" (siniestros.diversos@zurich.com)
                         new DataDomainMailModel(SubjectCasesConstants.CaseSinisterNum, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseSinisterNum),
                         new DataDomainMailModel(SubjectCasesConstants.CaseRefSin, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseRefSin),
                         new DataDomainMailModel(SubjectCasesConstants.CaseRefSinWithoutSpace, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseRefSinWithoutSpace),
@@ -581,7 +624,6 @@ namespace ExecuteAllProceduresFromSinister.Common
                         new DataDomainMailModel(SubjectCasesConstants.CaseSinister, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseSinisterWithoutSpace),
                         new DataDomainMailModel(SubjectCasesConstants.CaseSinisterWithSpace, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseSinisterWithSpace),
                         new DataDomainMailModel(SubjectCasesConstants.CaseSinisterZurich, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseSinisterZurich),
-
                     }
                 },
                 new DataGenericMailModel<IEnumerable<DataDomainMailModel>>()
