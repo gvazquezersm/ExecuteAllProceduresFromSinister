@@ -1,6 +1,6 @@
 ## 📋 Análisis del Proyecto
 
-**ExecuteAllProceduresFromSinister** — Azure Logic App (C#)
+**ExecuteAllProceduresFromSinister** — Azure Function App (C#, netcoreapp3.1, Functions v3)
 
 ### ¿Qué hace?
 Es un trigger HTTP que procesa emails de siniestros:
@@ -12,7 +12,7 @@ Es un trigger HTTP que procesa emails de siniestros:
 3. **Llama a la API ERSM** para obtener datos del siniestro
 4. **Sube archivos** al sistema documental (DocumentalLink)
 5. **Crea tareas** en el sistema:
-   - Tarea genérica (reenvíos)
+   - Tarea genérica (reenvíos / IA)
    - Tarea de compañía (flujo normal)
 6. **Registra logs** en cada paso
 
@@ -21,19 +21,22 @@ Es un trigger HTTP que procesa emails de siniestros:
 - `Business/Dto` — DTOs
 - `Business/Models` — Modelos de datos
 - `Common` — Utilidades, constantes, helpers
-- `Core/HttpClient` — Cliente HTTP para APIs
+- `Core/HttpClient` — Clientes HTTP (API ERSM + IA Groq/Ollama)
 
 ---
 
 ## 🔍 Sistema de detección de referencias por email
 
-La función principal utiliza un sistema de prioridades por **3 niveles** para detectar la referencia del siniestro a partir del asunto del email:
+La función principal utiliza un sistema de **4 niveles de prioridad** para detectar la referencia del siniestro:
 
 ```
 Nivel 1 → Email específico (GetActionsMailSpecificCases)   ← MAYOR PRIORIDAD
 Nivel 2 → Dominio del remitente (GetActionsMailDomain)
-Nivel 3 → Genérico solo asunto (GetAnyCaseOnlySubject)     ← MENOR PRIORIDAD
+Nivel 3 → Genérico solo asunto (GetAnyCaseOnlySubject)
+Nivel 4 → IA Groq/Ollama (ExtractSinisterReferenceAsync)   ← ÚLTIMO RECURSO
 ```
+
+> El Nivel 4 (IA) solo se activa si `EnableAiExtraction=true` en las variables de entorno de Azure y ningún nivel anterior resolvió la referencia.
 
 ---
 
@@ -93,6 +96,7 @@ Nivel 3 → Genérico solo asunto (GetAnyCaseOnlySubject)     ← MENOR PRIORIDA
 | `CaseOnlyNumbers` | `^[0-9]+$` | 150-151 | Asunto = número puro → es la referencia directa — Generali, Asitur |
 | `CaseAlphanumericRef` | `^[a-zA-Z0-9][a-zA-Z0-9\s\-]*$` | — | Referencia alfanumérica con guiones/espacios — Asitur, Generali |
 | `CaseGeneralionTmt` | `[0-9]+\/TMT` | 158 | Patrón "148614271/TMT..." — Generali TMT |
+| `CaseFiatcNuevaDoc` | `^NUEVA\s+documentación\s+para\s+la\s+gestión\s+del\s+siniestro\s+(\d+)$` | 130-131 | "NUEVA documentación para la gestión del siniestro NNNNN" — email.fiatc.es |
 
 > **Nota sobre `CaseAlphanumericRef`:** Cubre todos los formatos de referencia de Asitur:
 > - Puro numérico: `452646386`
@@ -153,6 +157,16 @@ El sistema compara `mailAddress.Host` con `x.Case` (case-insensitive).
 - **Con regex:** el match del regex se pasa al helper como `subjectRequest`
 - **Sin regex (`null`):** se usa `subject.Contains(x.Subject)` (case-sensitive) y el asunto completo pasa al helper
 
+### Normalización de dominio (`CanonicalDomain`)
+
+Algunos remitentes envían desde un **subdominio** (ej. `fiatc@email.fiatc.es`) pero ERSM tiene registrado el **dominio raíz** (ej. `fiatc.es`). En estos casos, el campo `CanonicalDomain` del caso de dominio indica el dominio canónico a usar en la búsqueda de la API.
+
+El `OriginMail` normalizado se construye como `{usuario}@{CanonicalDomain}` y se transporta en `DataReferenceModel.LookupOriginMail`. Si `LookupOriginMail` es `null`, se usa el `OriginMail` original.
+
+| Dominio remitente | `CanonicalDomain` | OriginMail enviado a la API |
+|---|---|---|
+| `email.fiatc.es` | `fiatc.es` | `fiatc@fiatc.es` |
+
 ### Dominios nuevos añadidos
 
 #### `mmtseguros.es`
@@ -204,12 +218,15 @@ El sistema compara `mailAddress.Host` con `x.Case` (case-insensitive).
 | 124-129, 132-133 | `CaseHash` (`#`) | `CaseHashRef` | `GetSubjectTrimmed` |
 | (prev.) | ... | ... | ... |
 
-#### `email.fiatc.es` (Casos 130-131)
+#### `email.fiatc.es` (Casos 130-131) — `CanonicalDomain = "fiatc.es"`
 | Caso | Keyword | Regex | Helper |
 |---|---|---|---|
-| 130 | `CaseHashRef` | `CaseHashRef` | `GetSubjectTrimmed` |
-| 131 | `CaseFiatcDocResolucion` | `CaseHashRef` | `GetSubjectTrimmed` |
-| 131b | `CaseFiatcNuevaDoc` | `CaseHashRef` | `GetSubjectTrimmed` |
+| 130 | `CaseHash` (`#`) | `CaseHashRef` | `GetRefFromSubjectReplaced` |
+| 131 | `CaseFiatcDocResolucion` | — | `GetFirstElementSplitFromSubject` |
+| 131b | `CaseFiatcNuevaDoc` | `CaseFiatcNuevaDoc` | `GetRefFromSubjectReplaced` |
+| — | `CaseFifteenV2` | `CaseFifteen` | `GetRefFromSubjectReplaced` |
+
+> ⚠️ Este dominio tiene `CanonicalDomain = "fiatc.es"`. La búsqueda en ERSM se realiza con `{usuario}@fiatc.es` en lugar del subdominio original `email.fiatc.es` que no está registrado en la base de datos.
 
 #### `mutuadepropietarios.es` — actualizado con Caso 134
 | Caso | Keyword | Regex | Helper |
@@ -267,6 +284,30 @@ Se añadieron casos de Hogar/Comunidad/Comercios **antes** del caso genérico de
 
 ---
 
+## 🤖 Extracción por IA (`Core/HttpClient/GroqClientService.cs`)
+
+Como **último recurso** (Nivel 4), si ningún patrón resuelve la referencia, se puede activar la extracción mediante IA.
+
+### Configuración (variables de entorno en Azure)
+
+| Variable | Descripción | Ejemplo |
+|---|---|---|
+| `EnableAiExtraction` | Activa/desactiva la IA (`true`/`false`) | `false` |
+| `GroqApiUrl` | URL de la API (Groq o Ollama) | `https://api.groq.com/openai/v1/chat/completions` |
+| `GroqModel` | Modelo a usar | `llama-3.1-8b-instant` |
+| `GroqApiKey` | API Key (opcional para Ollama) | `gsk_xxx...` |
+
+### Comportamiento
+- Envía el asunto y remitente a la IA con un prompt estructurado
+- La IA extrae únicamente el identificador del siniestro
+- Si no encuentra referencia clara, devuelve `NOT_FOUND` → la función devuelve `null`
+- Cualquier error en la llamada a la IA es silencioso (devuelve `null`, no rompe el flujo)
+- Los casos resueltos por IA se loguean con prefijo `[AI]` en Application Insights
+- Los casos resueltos por IA crean siempre **tarea genérica** (`IsGenericTask = true`)
+- Soporta modelos **thinking** (Ollama) que devuelven la respuesta en campo `reasoning`
+
+---
+
 ## 📊 Resumen de casos implementados (desde el inicio)
 
 | Rango | Compañía / Dominio | Descripción |
@@ -282,7 +323,7 @@ Se añadieron casos de Hogar/Comunidad/Comercios **antes** del caso genérico de
 | 115-120 | `catalanaoccidente.com` | Tramitador Hogar/Comunidad/Comercios/Auto/RC |
 | 121-122 | `zurich.com` | "siniestro núm." |
 | 124-129 | `fiatc.es` | Referencia con `#` |
-| 130-131 | `email.fiatc.es` | Documentos FIATC sin `#` |
+| 130-131 | `email.fiatc.es` | Documentos FIATC sin `#` (con normalización de dominio) |
 | 132-133 | `fiatc.es` | Más casos con `#` |
 | 134 | `mutuadepropietarios.es` | "Siniestro : XXX" (espacio antes de `:`) |
 | 148-149 | `asitur.es` | Asunto = referencia directa (numérica/alfanumérica) |
@@ -312,13 +353,21 @@ Se añadieron casos de Hogar/Comunidad/Comercios **antes** del caso genérico de
 - **`null`:** el sistema usa `subject.Contains(keyword)` → el asunto completo pasa al helper
 - **Con regex:** el regex se ejecuta sobre el asunto → solo el **valor del match** pasa al helper
 
+### Cuándo usar `CanonicalDomain`
+Usar cuando el dominio del remitente es un **subdominio** que ERSM no tiene registrado como fuente válida para la búsqueda por `SinRefCompany`. El `CanonicalDomain` define el dominio raíz que SÍ está registrado en ERSM. Si no se necesita normalización, dejar a `null`.
+
 ---
 
 ## 🔧 Archivos modificados
 
 | Archivo | Cambios |
 |---|---|
-| `Common/PatternRegexConstants.cs` | +7 nuevas constantes de regex |
+| `Common/PatternRegexConstants.cs` | +8 nuevas constantes de regex (incluyendo `CaseFiatcNuevaDoc`) |
 | `Common/SubjectCasesConstants.cs` | +20 nuevas constantes de keywords |
-| `Common/Helpers.cs` | +1 función helper (`GetSubjectTrimmed`), +nuevos dominios y casos en `GetActionsMailDomain`, +nuevas entradas en `GetActionsMailSpecificCases` |
-| `ExecuteAllProceduresFromSinister.cs` | +logs `[DEBUG]` para trazabilidad |
+| `Common/Helpers.cs` | +1 función helper (`GetSubjectTrimmed`), +nuevos dominios y casos en `GetActionsMailDomain`, +`CanonicalDomain = "fiatc.es"` en `email.fiatc.es`, +nuevas entradas en `GetActionsMailSpecificCases` |
+| `Common/Helpers.cs` | Fix: bucle PDF cambiado de `i=0` a `i=1` (iTextSharp es 1-based) + try/catch por página |
+| `ExecuteAllProceduresFromSinister.cs` | +logs `[DEBUG]` para trazabilidad, +normalización `LookupOriginMail`, +integración IA como último recurso |
+| `Core/HttpClient/GroqClientService.cs` | Nuevo: cliente HTTP para Groq/Ollama con soporte multi-proveedor y modelos thinking |
+| `Business/Models/DataGenericMailModel.cs` | +propiedad `CanonicalDomain` para normalización de dominio en búsqueda ERSM |
+| `Business/Models/DataReferenceModel.cs` | +propiedad `LookupOriginMail` para transportar el email normalizado |
+| `ExecuteAllProceduresFromSinister.csproj` | Eliminados `Azure.Identity 1.17.0` y `Microsoft.ApplicationInsights.WorkerService 2.23.0` (incompatibles con Functions v3) |
