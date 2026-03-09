@@ -95,6 +95,7 @@
         // ── Casos 130-131: FIATC email.fiatc.es (sin #) ───────────────────────────
         public const string CaseFiatcDocResolucion = "Documento de resolución del siniestro";
         public const string CaseFiatcNuevaDoc = "NUEVA documentación para la gestión del siniestro";
+        public const string CaseFiatcNuevaDocCat = "NOVA documentació per la gestió del sinistre";
 
         // ── Caso 134: Mutua de Propietarios ("Siniestro : xxx") ───────────────────
         public const string CaseSiniestroSpaceColon = "Siniestro :";

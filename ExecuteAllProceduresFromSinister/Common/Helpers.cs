@@ -809,6 +809,7 @@ namespace ExecuteAllProceduresFromSinister.Common
                         new DataDomainMailModel(SubjectCasesConstants.CaseHash, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseHashRef),
                         new DataDomainMailModel(SubjectCasesConstants.CaseFiatcDocResolucion, new Func<string, string, string>(GetFirstElementSplitFromSubject)),
                         new DataDomainMailModel(SubjectCasesConstants.CaseFiatcNuevaDoc, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseFiatcNuevaDoc, isGenericTask: true),
+                        new DataDomainMailModel(SubjectCasesConstants.CaseFiatcNuevaDocCat, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseFiatcNuevaDocCat, isGenericTask: true),
                         new DataDomainMailModel(SubjectCasesConstants.CaseFifteenV2, new Func<string, string, string>(GetRefFromSubjectReplaced), null, PatternRegexConstants.CaseFifteen),
                     }
                 },

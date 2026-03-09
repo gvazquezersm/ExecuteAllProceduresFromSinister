@@ -56,6 +56,10 @@
         // ── Nuevo caso FIATC – NUEVA documentación para la gestión del siniestro ───────
         // Captura el número de siniestro al final del asunto
         public const string CaseFiatcNuevaDoc = @"^NUEVA\s+documentación\s+para\s+la\s+gestión\s+del\s+siniestro\s+(\d+)$";
+
+        // ── Nuevo caso FIATC – versión en catalán ───────
+        // "NOVA documentació per la gestió del sinistre NNNNN"
+        public const string CaseFiatcNuevaDocCat = @"^NOVA\s+documentació\s+per\s+la\s+gestió\s+del\s+sinistre\s+(\d+)$";
     
     }
 }
