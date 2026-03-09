@@ -428,13 +428,14 @@ namespace ExecuteAllProceduresFromSinister.Common
                     Case = "noreply@plusultra.es",
                     Data = new List<DataActionMailModel>()
                     {
-                        // Casos 118-120: "Siniestro/Tramitador Siniestro X - xxxxxxxx" (un solo guion → ref tras el guion)
-                        new DataActionMailModel(SubjectCasesConstants.CaseSinisterHogar, new Func<string,string,string>(GetRefFromSubjectReplaced)),
-                        new DataActionMailModel(SubjectCasesConstants.CaseSinisterComunidad, new Func<string,string,string>(GetRefFromSubjectReplaced)),
-                        new DataActionMailModel(SubjectCasesConstants.CaseSinisterComercios, new Func<string,string,string>(GetRefFromSubjectReplaced)),
-                        new DataActionMailModel(SubjectCasesConstants.CaseTramitadorSinHogar, new Func<string,string,string>(GetRefFromSubjectReplaced)),
-                        new DataActionMailModel(SubjectCasesConstants.CaseTramitadorSinComunidad, new Func<string,string,string>(GetRefFromSubjectReplaced)),
-                        new DataActionMailModel(SubjectCasesConstants.CaseTramitadorSinComercios, new Func<string,string,string>(GetRefFromSubjectReplaced)),
+                        // Casos 118-120: "Siniestro/Tramitador Siniestro X - xxxxxxxx [- Nombre]"
+                        // GetFirstElementSplitFromSubject: toma el primer token tras el keyword → válido tanto para 1 guion como para 2 guiones (- ref - nombre)
+                        new DataActionMailModel(SubjectCasesConstants.CaseSinisterHogar, new Func<string,string,string>(GetFirstElementSplitFromSubject)),
+                        new DataActionMailModel(SubjectCasesConstants.CaseSinisterComunidad, new Func<string,string,string>(GetFirstElementSplitFromSubject)),
+                        new DataActionMailModel(SubjectCasesConstants.CaseSinisterComercios, new Func<string,string,string>(GetFirstElementSplitFromSubject)),
+                        new DataActionMailModel(SubjectCasesConstants.CaseTramitadorSinHogar, new Func<string,string,string>(GetFirstElementSplitFromSubject)),
+                        new DataActionMailModel(SubjectCasesConstants.CaseTramitadorSinComunidad, new Func<string,string,string>(GetFirstElementSplitFromSubject)),
+                        new DataActionMailModel(SubjectCasesConstants.CaseTramitadorSinComercios, new Func<string,string,string>(GetFirstElementSplitFromSubject)),
                         // Caso 103: "Tramitador Siniestro Flotas - xxxxxxxx - Tomador" (dos guiones → ref entre guiones)
                         new DataActionMailModel(SubjectCasesConstants.CaseThirtyOne, new Func<string,string,string>(GetRefSinisterFromSubjectBetweenDash)),
                     }
