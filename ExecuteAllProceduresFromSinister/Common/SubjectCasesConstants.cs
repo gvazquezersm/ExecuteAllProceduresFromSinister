@@ -111,5 +111,6 @@
 
         // ── Caso 158: Generali TMT (referencia/TMT...) ───────────────────────────
         public const string CaseGeneralionTmt = "TMT";
+        
     }
 }

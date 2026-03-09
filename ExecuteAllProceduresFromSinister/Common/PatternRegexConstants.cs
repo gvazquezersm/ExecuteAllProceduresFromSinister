@@ -52,5 +52,10 @@
 
         // ── Caso Generali TMT: 148614271/TMT(RD023)(085182559) ──────────────────
         public const string CaseGeneralionTmt = @"[0-9]+\/TMT";
+
+        // ── Nuevo caso FIATC – NUEVA documentación para la gestión del siniestro ───────
+        // Captura el número de siniestro al final del asunto
+        public const string CaseFiatcNuevaDoc = @"^NUEVA\s+documentación\s+para\s+la\s+gestión\s+del\s+siniestro\s+(\d+)$";
+    
     }
 }

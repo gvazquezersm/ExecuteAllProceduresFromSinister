@@ -94,9 +94,10 @@ namespace ExecuteAllProceduresFromSinister
         private static async Task<bool> ExecuteProcessFromSinister(AutomationMailHeaderFilterDto automationMailHeaderFilterDto, DataReferenceModel referenceModel)
         {
             var result = false;
+            var effectiveOriginMail = referenceModel.LookupOriginMail ?? automationMailHeaderFilterDto.OriginMail;
             var sinisterDataFilterDto = new AutomationSinisterDataFilterDto()
             {
-                OriginMail = referenceModel.IsSinAlias ? null : automationMailHeaderFilterDto.OriginMail,
+                OriginMail = referenceModel.IsSinAlias ? null : effectiveOriginMail,
                 SinRefCompany = referenceModel.IsSinAlias ? null : referenceModel.Reference,
                 SinAlias = referenceModel.IsSinAlias ? referenceModel.Reference : null,
                 IsSinAlias = referenceModel.IsSinAlias
@@ -257,6 +258,14 @@ namespace ExecuteAllProceduresFromSinister
                             {
                                 dataReferenceModel = GetDataReferenceFromSubjectCaseNotSpecific(subject, actionMailDomain.Data);
                             }
+
+                            // Si el caso de dominio tiene un dominio canónico registrado en ERSM distinto
+                            // al subdominio del remitente, normalizamos el OriginMail para la búsqueda.
+                            if (!string.IsNullOrEmpty(dataReferenceModel.Reference) && !string.IsNullOrEmpty(actionMailDomain.CanonicalDomain))
+                            {
+                                dataReferenceModel.LookupOriginMail = $"{mailAddress.User}@{actionMailDomain.CanonicalDomain}";
+                                _log.LogInformation("[DOMAIN-NORMALIZE] OriginMail normalizado: {Original} → {Normalized}", originMail, dataReferenceModel.LookupOriginMail);
+                            }
                         }
 
                         // Anycase with unique subject
@@ -266,23 +275,23 @@ namespace ExecuteAllProceduresFromSinister
                             dataReferenceModel = GetDataReferenceFromSubjectCaseNotSpecific(subject, anyCaseOnlySubject);
                             dataReferenceModel.IsSinAlias = true;
                         }
+                    }
 
-                        // Último recurso: IA (Groq) si ningún patrón ha resuelto la referencia
-                        if (string.IsNullOrEmpty(dataReferenceModel.Reference) && IsAiExtractionEnabled())
+                    // Último recurso: IA (Groq) si ningún patrón ha resuelto la referencia
+                    if (string.IsNullOrEmpty(dataReferenceModel.Reference) && IsAiExtractionEnabled())
+                    {
+                        _log.LogInformation("[AI] No pattern matched. Attempting Groq extraction. Subject: {Subject} | Mail: {Mail}", subject, originMail);
+                        var aiReference = GetReferenceFromAiAsync(subject, originMail).GetAwaiter().GetResult();
+                        if (!string.IsNullOrEmpty(aiReference))
                         {
-                            _log.LogInformation("[AI] No pattern matched. Attempting Groq extraction. Subject: {Subject} | Mail: {Mail}", subject, originMail);
-                            var aiReference = GetReferenceFromAiAsync(subject, originMail).GetAwaiter().GetResult();
-                            if (!string.IsNullOrEmpty(aiReference))
-                            {
-                                _log.LogInformation("[AI] Groq extracted reference: {Ref}", aiReference);
-                                dataReferenceModel.Reference = aiReference;
-                                dataReferenceModel.IsGenericTask = true;
-                                dataReferenceModel.IsSinAlias = false;
-                            }
-                            else
-                            {
-                                _log.LogInformation("[AI] Groq could not extract a reference.");
-                            }
+                            _log.LogInformation("[AI] Groq extracted reference: {Ref}", aiReference);
+                            dataReferenceModel.Reference = aiReference;
+                            dataReferenceModel.IsGenericTask = true;
+                            dataReferenceModel.IsSinAlias = false;
+                        }
+                        else
+                        {
+                            _log.LogInformation("[AI] Groq could not extract a reference.");
                         }
                     }
                 }
