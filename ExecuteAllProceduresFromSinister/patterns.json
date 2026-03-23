@@ -1,0 +1,1771 @@
+{
+  "version": "1.0",
+  "specificEmails": [
+    {
+      "email": "cts.autosnoreste@allianz.es",
+      "description": "Allianz CTS Autos Noreste",
+      "cases": [
+        {
+          "keyword": "Información agente/asegurado: S-",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Talleres: Encargo de peritación -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "SMS Unidades Mixtas",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "email": "cts.atenciondirecta@allianz.es",
+      "description": "Allianz CTS Atención Directa",
+      "cases": [
+        {
+          "keyword": "Información agente/asegurado: S-",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Talleres: Encargo de peritación -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "SMS Unidades Mixtas",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "email": "cts.autoscentro@allianz.es",
+      "description": "Allianz CTS Autos Centro",
+      "cases": [
+        {
+          "keyword": "Solicitud parte/documentación",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Ofrecer abog. reclamador lesiones",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "email": "siniestrosflotas@ersmgrupo.com",
+      "description": "ERSM Siniestros Flotas",
+      "cases": [
+        {
+          "keyword": "Mod General Agente.Intente utilizar Prefijado",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "email": "mediadores@plusultrainfo.com",
+      "description": "Plus Ultra Mediadores",
+      "cases": [
+        {
+          "keyword": "Siniestro Autos",
+          "helper": "GetFirstElementSplitFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Siniestro Diversos",
+          "helper": "GetFirstElementSplitFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "email": "webmed@axa.es",
+      "description": "AXA WebMed",
+      "cases": [
+        {
+          "keyword": "Siniestro:",
+          "helper": "GetSinisterClaudatorsFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "email": "noreply@plusultra.es",
+      "description": "Plus Ultra Automático",
+      "cases": [
+        {
+          "keyword": "Siniestro Hogar -",
+          "helper": "GetFirstElementSplitFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Siniestro Comunidad. -",
+          "helper": "GetFirstElementSplitFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Siniestro Comercios -",
+          "helper": "GetFirstElementSplitFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro Hogar -",
+          "helper": "GetFirstElementSplitFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro Comunidad. -",
+          "helper": "GetFirstElementSplitFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro Comercios -",
+          "helper": "GetFirstElementSplitFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Siniestro",
+          "helper": "GetRefSinisterFromSubjectBetweenDash",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "email": "enviosautomaticosweb@mgs.es",
+      "description": "MGS Automático (email específico)",
+      "cases": [
+        {
+          "keyword": "MGS Informa: Siniestro aperturado a través de nuestro servicio de asistencia y declaración de siniestros",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "MGS Informa: Nueva acción realizada sobre el siniestro",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "email": "siniestros.diversos@zurich.com",
+      "description": "Zurich Siniestros Diversos",
+      "cases": [
+        {
+          "keyword": "siniestro núm.",
+          "helper": "GetLastTokenFromMatch",
+          "regex": "siniestro n[uú]m\\. [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "email": "noreply@zurich.com",
+      "description": "Zurich Notificaciones",
+      "cases": [
+        {
+          "keyword": "siniestro nº",
+          "helper": "GetLastTokenFromMatch",
+          "regex": "siniestro n.* [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    }
+  ],
+  "domains": [
+    {
+      "domain": "fiatc.es",
+      "canonicalDomain": null,
+      "description": "FIATC",
+      "cases": [
+        {
+          "keyword": "-",
+          "helper": "GetRefFromDeletingElementsAndJoin",
+          "regex": "[0-9]+-[0-9]+-[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "siniestro",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "#",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "#[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "libertyseguros.es",
+      "canonicalDomain": null,
+      "description": "Liberty Seguros",
+      "cases": [
+        {
+          "keyword": "/",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+\\/",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "/",
+          "helper": "GetRefFromInitStringToCaseString",
+          "regex": "[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]*\\/.*\\/.*",
+          "containMail": "siniestros",
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "referencia",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "reference [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "allianz.es",
+      "canonicalDomain": null,
+      "description": "Allianz",
+      "cases": [
+        {
+          "keyword": "S-",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "s-[0-9]+",
+          "containMail": "siniestros",
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "referencia",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "reference [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "axa.es",
+      "canonicalDomain": null,
+      "description": "AXA",
+      "cases": [
+        {
+          "keyword": "siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro: [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "N/Ref.",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n\\/ref\\. [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "N/Sin.",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n\\/sin\\. [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "referencia",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "reference [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "reale.es",
+      "canonicalDomain": null,
+      "description": "Reale Seguros",
+      "cases": [
+        {
+          "keyword": "siniestro",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "expediente:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "expediente: [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "referencia",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "reference [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "helvetia.es",
+      "canonicalDomain": null,
+      "description": "Helvetia",
+      "cases": [
+        {
+          "keyword": "siniestro",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "referencia",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "referencia [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "referencia",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "referencia [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "referencia",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "reference [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Pago Referencia",
+          "helper": "GetFirstElementSplitFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "zurich.com",
+      "canonicalDomain": null,
+      "description": "Zurich",
+      "cases": [
+        {
+          "keyword": "siniestro nº",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro n.* [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "siniestro núm.",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro n[uú]m\\. [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "siniestro de zurich n.º",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro de zurich n.* [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "iurisart.com",
+      "canonicalDomain": null,
+      "description": "Iurisart",
+      "cases": [
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "gcoservicios.com",
+      "canonicalDomain": null,
+      "description": "GCO Servicios",
+      "cases": [
+        {
+          "keyword": "siniestro",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "catalanaoccidente.com",
+      "canonicalDomain": null,
+      "description": "Catalana Occidente",
+      "cases": [
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "-",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "- [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+ -",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro Hogar -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro Comunidad. -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro Comercios -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro Automov. -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro RC.profes. -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro RC.pr.inm. -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Siniestro Hogar -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Siniestro Comunidad. -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Siniestro Comercios -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "pelayo.com",
+      "canonicalDomain": null,
+      "description": "Pelayo",
+      "cases": [
+        {
+          "keyword": "siniestro",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "mapfre.com",
+      "canonicalDomain": null,
+      "description": "MAPFRE",
+      "cases": [
+        {
+          "keyword": "n/referencia",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "reference [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "siniestro",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "referencia",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "reference [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "mutuadepropietarios.es",
+      "canonicalDomain": null,
+      "description": "Mutua de Propietarios",
+      "cases": [
+        {
+          "keyword": "ref as:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref as: [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "n/referencia",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "reference [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "siniestro",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro : [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "catalanaoccidenteinfo.com",
+      "canonicalDomain": null,
+      "description": "Catalana Occidente Info",
+      "cases": [
+        {
+          "keyword": "ref as:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref as: [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "n/referencia",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "reference [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "-",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "- [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+ -",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref. siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref\\. silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref.siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref.siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "ref siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "ref silvestres:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre: [0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre:[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "nº siniestro :",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n.* silvestre :[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "mmtseguros.es",
+      "canonicalDomain": null,
+      "description": "MMT Seguros",
+      "cases": [
+        {
+          "keyword": "expediente:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "expediente: [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "qualitasautoclassic.com",
+      "canonicalDomain": null,
+      "description": "Qualitas Auto Classic",
+      "cases": [
+        {
+          "keyword": "/",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "\\/[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "occidentinforma.com",
+      "canonicalDomain": null,
+      "description": "Occident Informa",
+      "cases": [
+        {
+          "keyword": "Siniestro Diversos",
+          "helper": "GetFirstElementSplitFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Siniestro Hogar -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Siniestro Comunidad. -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Siniestro Comercios -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro Hogar -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro Comunidad. -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro Comercios -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro Automov. -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro RC.profes. -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro RC.pr.inm. -",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "gco.com",
+      "canonicalDomain": null,
+      "description": "GCO Digitaliza",
+      "cases": [
+        {
+          "keyword": "COPIA DE CORRESPONDENCIA DEL SINIESTRO",
+          "helper": "GetFirstElementSplitFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "N/ REF.",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "N/Ref.",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n\\/ref\\. [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "N/Sin.",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "n\\/sin\\. [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "siniestro",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "email.fiatc.es",
+      "canonicalDomain": "fiatc.es",
+      "description": "FIATC (subdominio email)",
+      "cases": [
+        {
+          "keyword": "#",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "#[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "Documento de resolución del siniestro",
+          "helper": "GetFirstElementSplitFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "NUEVA documentación para la gestión del siniestro",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "^NUEVA\\s+documentación\\s+para\\s+la\\s+gestión\\s+del\\s+siniestro\\s+(\\d+)$",
+          "containMail": null,
+          "isGenericTask": true,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "NOVA documentació per la gestió del sinistre",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "^NOVA\\s+documentació\\s+per\\s+la\\s+gestió\\s+del\\s+sinistre\\s+(\\d+)$",
+          "containMail": null,
+          "isGenericTask": true,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "siniestro",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "multiassistance.com",
+      "canonicalDomain": null,
+      "description": "Multiassistance (Allianz partners)",
+      "cases": [
+        {
+          "keyword": "S-",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "s-[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "multiasistencia.com",
+      "canonicalDomain": null,
+      "description": "Multiasistencia",
+      "cases": [
+        {
+          "keyword": "S-",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "s-[0-9]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "asitur.es",
+      "canonicalDomain": null,
+      "description": "Asitur / Generali",
+      "cases": [
+        {
+          "keyword": "",
+          "helper": "GetSubjectTrimmed",
+          "regex": "^[0-9]+$",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "",
+          "helper": "GetSubjectTrimmed",
+          "regex": "^[a-zA-Z0-9][a-zA-Z0-9\\s\\-]*$",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "sinexia.org",
+      "canonicalDomain": null,
+      "description": "Sinexia",
+      "cases": [
+        {
+          "keyword": "siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro: [a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "siniestro:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro:[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "generalion.es",
+      "canonicalDomain": null,
+      "description": "Generali",
+      "cases": [
+        {
+          "keyword": "TMT",
+          "helper": "GetSubjectTrimmed",
+          "regex": "[0-9]+\\/TMT",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "",
+          "helper": "GetSubjectTrimmed",
+          "regex": "^[0-9]+$",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "",
+          "helper": "GetSubjectTrimmed",
+          "regex": "^[a-zA-Z0-9][a-zA-Z0-9\\s\\-]*$",
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "murimar.com",
+      "canonicalDomain": null,
+      "description": "Murimar",
+      "cases": [
+        {
+          "keyword": "MURIMAR - Referencia:",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "domain": "mgs.es",
+      "canonicalDomain": null,
+      "description": "MGS Seguros",
+      "cases": [
+        {
+          "keyword": "MGS Informa: Siniestro aperturado a través de nuestro servicio de asistencia y declaración de siniestros",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        },
+        {
+          "keyword": "MGS Informa: Nueva acción realizada sobre el siniestro",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    }
+  ],
+  "genericSubjectCases": [
+    {
+      "keyword": "sin. vseg:",
+      "helper": "GetRefFromSubjectReplaced",
+      "regex": "sin\\. vseg: [0-9]+",
+      "containMail": null,
+      "isGenericTask": false,
+      "onlyLoad": false
+    },
+    {
+      "keyword": "vst",
+      "helper": "GetRefFromSubjectReplaced",
+      "regex": "^vst[0-9]+",
+      "containMail": null,
+      "isGenericTask": true,
+      "onlyLoad": false
+    },
+    {
+      "keyword": "vs",
+      "helper": "GetRefFromSubjectReplaced",
+      "regex": "^vs[0-9]+",
+      "containMail": null,
+      "isGenericTask": false,
+      "onlyLoad": true
+    }
+  ]
+}

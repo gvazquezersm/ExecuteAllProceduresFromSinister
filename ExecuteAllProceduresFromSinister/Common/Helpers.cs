@@ -319,7 +319,7 @@ namespace ExecuteAllProceduresFromSinister.Common
             return subjectRequest?.Trim() ?? string.Empty;
         }
 
-        private static string GetRefFromDeletingElementsAndJoin(string subjectRequest, string subjectCase)
+        public static string GetRefFromDeletingElementsAndJoin(string subjectRequest, string subjectCase)
         {
             var data = string.Empty;
             if (!string.IsNullOrEmpty(subjectRequest) && !string.IsNullOrEmpty(subjectCase))
@@ -337,7 +337,7 @@ namespace ExecuteAllProceduresFromSinister.Common
             return data;
         }
 
-        private static string GetRefFromInitStringToCaseString(string subjectRequest, string subjectCase)
+        public static string GetRefFromInitStringToCaseString(string subjectRequest, string subjectCase)
         {
             var data = string.Empty;
 
@@ -365,6 +365,11 @@ namespace ExecuteAllProceduresFromSinister.Common
         }
 
         public static List<DataGenericMailModel<IEnumerable<DataActionMailModel>>> GetActionsMailSpecificCases()
+        {
+            return PatternLoader.GetSpecificEmailPatterns();
+        }
+
+        private static List<DataGenericMailModel<IEnumerable<DataActionMailModel>>> GetActionsMailSpecificCases_Legacy()
         {
             var list = new List<DataGenericMailModel<IEnumerable<DataActionMailModel>>>()
             {
@@ -479,6 +484,11 @@ namespace ExecuteAllProceduresFromSinister.Common
 
         public static IEnumerable<DataDomainMailModel> GetAnyCaseOnlySubject()
         {
+            return PatternLoader.GetGenericSubjectPatterns();
+        }
+
+        private static IEnumerable<DataDomainMailModel> GetAnyCaseOnlySubject_Legacy()
+        {
             var list = new List<DataDomainMailModel>()
             {
                 // "sin. vseg:" → comportamiento por defecto
@@ -505,6 +515,11 @@ namespace ExecuteAllProceduresFromSinister.Common
         }
 
         public static IEnumerable<DataGenericMailModel<IEnumerable<DataDomainMailModel>>> GetActionsMailDomain()
+        {
+            return PatternLoader.GetDomainPatterns();
+        }
+
+        private static IEnumerable<DataGenericMailModel<IEnumerable<DataDomainMailModel>>> GetActionsMailDomain_Legacy()
         {
             var list = new List<DataGenericMailModel<IEnumerable<DataDomainMailModel>>>()
             {
