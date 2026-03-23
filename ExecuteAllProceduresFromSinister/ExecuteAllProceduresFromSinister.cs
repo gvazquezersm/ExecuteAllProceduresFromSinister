@@ -30,6 +30,8 @@ namespace ExecuteAllProceduresFromSinister
             _log = log;
             _log.LogInformation("Processing data from email...");
             var result = CommonConstants.NotProcessed;
+            var isAuditMode = req.Query["audit"] == "true";
+            var patternFound = false;
 
             var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var dataSinisterFilterDto = JsonConvert.DeserializeObject<AutomationMailHeaderFilterDto>(requestBody);
@@ -47,12 +49,13 @@ namespace ExecuteAllProceduresFromSinister
                         /// Prioridad: 1. Caso específico por Email | 2. Reglas por Dominio/Palabra clave | 3. Casos generales por Asunto.
                         /// </summary>
                         var dataReferenceModel = GetReferenceModelFromSubjectCase(dataSinisterFilterDto.Subject, dataSinisterFilterDto.OriginMail);
-                        
+
                         _log.LogInformation("[REF_MODEL] Reference: {Ref} | IsGenericTask: {Generic} | OnlyLoad: {Only}",
                             dataReferenceModel?.Reference, dataReferenceModel?.IsGenericTask, dataReferenceModel?.OnlyLoad);
 
                         if (dataReferenceModel != null && !string.IsNullOrEmpty(dataReferenceModel.Reference))
                         {
+                            patternFound = true;
                             var successProcess = await ExecuteProcessFromSinister(dataSinisterFilterDto, dataReferenceModel);
                             if (successProcess)
                             {
@@ -78,6 +81,11 @@ namespace ExecuteAllProceduresFromSinister
             }
 
             _log.LogInformation("Process finished data from email...");
+
+            if (isAuditMode && result == CommonConstants.NotProcessed)
+            {
+                return new OkObjectResult(patternFound ? "Not processed: sinister not found" : "Pattern not found");
+            }
 
             return new OkObjectResult(result);
         }
