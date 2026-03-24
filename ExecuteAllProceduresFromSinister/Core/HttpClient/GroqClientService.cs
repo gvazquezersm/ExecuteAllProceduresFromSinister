@@ -10,6 +10,12 @@ namespace ExecuteAllProceduresFromSinister.Core.HttpClient
     {
         private static readonly System.Net.Http.HttpClient _httpClient = new System.Net.Http.HttpClient();
 
+        private static bool IsDebugEnabled()
+        {
+            var value = Environment.GetEnvironmentVariable("EnableDebugLogs");
+            return bool.TryParse(value, out var enabled) && enabled;
+        }
+
         /// <summary>
         /// Llama a la API configurada (Groq o Ollama) para extraer el identificador de siniestro del asunto del email.
         /// Devuelve null si no encuentra identificador o si la llamada falla.
@@ -23,7 +29,8 @@ namespace ExecuteAllProceduresFromSinister.Core.HttpClient
                 var model = Environment.GetEnvironmentVariable("GroqModel");
                 var apiKey = Environment.GetEnvironmentVariable("GroqApiKey");
 
-                Console.WriteLine($"[AI-CONFIG] ApiUrl: {apiUrl} | Model: {model} | HasKey: {!string.IsNullOrEmpty(apiKey)}");
+                var debugEnabled = IsDebugEnabled();
+                if (debugEnabled) Console.WriteLine($"[AI-CONFIG] ApiUrl: {apiUrl} | Model: {model} | HasKey: {!string.IsNullOrEmpty(apiKey)}");
 
                 if (string.IsNullOrEmpty(apiUrl) || string.IsNullOrEmpty(model)) return null;
 
@@ -57,17 +64,20 @@ Asunto: {subject}";
                 request.Content = content;
 
                 var response = await _httpClient.SendAsync(request);
-                Console.WriteLine($"[AI-HTTP] StatusCode: {(int)response.StatusCode} {response.StatusCode}");
+                if (debugEnabled) Console.WriteLine($"[AI-HTTP] StatusCode: {(int)response.StatusCode} {response.StatusCode}");
                 if (!response.IsSuccessStatusCode)
                 {
                     var errorBody = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"[AI-HTTP-ERROR] Body: {errorBody}");
+                    if (debugEnabled) Console.WriteLine($"[AI-HTTP-ERROR] Body: {errorBody}");
                     return null;
                 }
 
                 var responseJson = await response.Content.ReadAsStringAsync();
-                System.Diagnostics.Debug.WriteLine($"[AI-RAW] Groq response: {responseJson}");
-                Console.WriteLine($"[AI-RAW] Status: {response.StatusCode} | Body: {responseJson}");
+                if (debugEnabled)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[AI-RAW] Groq response: {responseJson}");
+                    Console.WriteLine($"[AI-RAW] Status: {response.StatusCode} | Body: {responseJson}");
+                }
                 var groqResponse = JsonConvert.DeserializeObject<GroqResponse>(responseJson);
                 var message = groqResponse?.Choices?[0]?.Message;
                 var extracted = message?.Content?.Trim();
@@ -77,7 +87,7 @@ Asunto: {subject}";
                 if (string.IsNullOrEmpty(extracted))
                 {
                     extracted = message?.Reasoning?.Trim();
-                    if (!string.IsNullOrEmpty(extracted))
+                    if (!string.IsNullOrEmpty(extracted) && debugEnabled)
                         Console.WriteLine($"[AI-THINKING] content vacío, usando campo reasoning como fallback");
                 }
 
@@ -88,7 +98,7 @@ Asunto: {subject}";
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[AI-ERROR] Exception: {ex.GetType().Name} | {ex.Message}");
+                if (IsDebugEnabled()) Console.WriteLine($"[AI-ERROR] Exception: {ex.GetType().Name} | {ex.Message}");
                 return null;
             }
         }

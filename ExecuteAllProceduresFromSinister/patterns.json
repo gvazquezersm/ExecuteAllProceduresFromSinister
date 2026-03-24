@@ -1754,7 +1754,7 @@
     {
       "keyword": "vst",
       "helper": "GetRefFromSubjectReplaced",
-      "regex": "^vst[0-9]+",
+      "regex": "^vst\\d{10}",
       "containMail": null,
       "isGenericTask": true,
       "onlyLoad": false
@@ -1762,7 +1762,7 @@
     {
       "keyword": "vs",
       "helper": "GetRefFromSubjectReplaced",
-      "regex": "^vs[0-9]+",
+      "regex": "^vs\\d{10}",
       "containMail": null,
       "isGenericTask": false,
       "onlyLoad": true

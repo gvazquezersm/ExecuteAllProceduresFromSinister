@@ -38,7 +38,7 @@ namespace ExecuteAllProceduresFromSinister
             if (dataSinisterFilterDto != null)
             {
                 var isExceptionCase = IsExceptionMailCase(dataSinisterFilterDto.Body, dataSinisterFilterDto.Subject, dataSinisterFilterDto.OriginMail, dataSinisterFilterDto.Attachments);
-                _log.LogInformation("[EXCEPTION_CHECK] Subject: {Subject} | OriginMail: {Mail} | IsException: {IsException}",
+                if (IsDebugEnabled()) _log.LogInformation("[EXCEPTION_CHECK] Subject: {Subject} | OriginMail: {Mail} | IsException: {IsException}",
     dataSinisterFilterDto.Subject, dataSinisterFilterDto.OriginMail, isExceptionCase);
                 if (!isExceptionCase)
                 { // SI NO ES UN CASO EXCEPCIONAL...
@@ -48,9 +48,13 @@ namespace ExecuteAllProceduresFromSinister
                         /// Obtiene la referencia de siniestro/póliza analizando el asunto y el remitente.
                         /// Prioridad: 1. Caso específico por Email | 2. Reglas por Dominio/Palabra clave | 3. Casos generales por Asunto.
                         /// </summary>
-                        var dataReferenceModel = GetReferenceModelFromSubjectCase(dataSinisterFilterDto.Subject, dataSinisterFilterDto.OriginMail);
+                        var cleanedSubject = System.Text.RegularExpressions.Regex.Replace(
+                            dataSinisterFilterDto.Subject ?? string.Empty,
+                            @"^(RE|RV|FW|FWD)\s*:\s*", string.Empty,
+                            System.Text.RegularExpressions.RegexOptions.IgnoreCase).Trim();
+                        var dataReferenceModel = GetReferenceModelFromSubjectCase(cleanedSubject, dataSinisterFilterDto.OriginMail);
 
-                        _log.LogInformation("[REF_MODEL] Reference: {Ref} | IsGenericTask: {Generic} | OnlyLoad: {Only}",
+                        if (IsDebugEnabled()) _log.LogInformation("[REF_MODEL] Reference: {Ref} | IsGenericTask: {Generic} | OnlyLoad: {Only}",
                             dataReferenceModel?.Reference, dataReferenceModel?.IsGenericTask, dataReferenceModel?.OnlyLoad);
 
                         if (dataReferenceModel != null && !string.IsNullOrEmpty(dataReferenceModel.Reference))
@@ -110,12 +114,12 @@ namespace ExecuteAllProceduresFromSinister
                 SinAlias = referenceModel.IsSinAlias ? referenceModel.Reference : null,
                 IsSinAlias = referenceModel.IsSinAlias
             };
-            _log.LogInformation($"Sinister Filter Data: {Newtonsoft.Json.JsonConvert.SerializeObject(sinisterDataFilterDto)}");
+            if (IsDebugEnabled()) _log.LogInformation($"Sinister Filter Data: {Newtonsoft.Json.JsonConvert.SerializeObject(sinisterDataFilterDto)}");
 
             await AddLogLogicApp(automationMailHeaderFilterDto.OriginMail, automationMailHeaderFilterDto.Subject, JsonConvert.SerializeObject(sinisterDataFilterDto));
 
             var requestUrl = new Uri(new Uri(CommonConstants.BaseUrl), CommonConstants.EndpointGetSinisterData).ToString();
-            _log.LogInformation($"Llamando a la url: {requestUrl}");
+            if (IsDebugEnabled()) _log.LogInformation($"Llamando a la url: {requestUrl}");
 
             //HACEMOS LA LLAMADA A LA API ERSM
             var sinisterData = await BaseHttpClientService.PostAsync<AutomationSinisterDataFilterDto, AutomationSinisterDataDto>(CommonConstants.EndpointGetSinisterData, sinisterDataFilterDto);
@@ -136,7 +140,7 @@ namespace ExecuteAllProceduresFromSinister
                     CCMails = automationMailHeaderFilterDto.CC?.ToEmailsList()
                 };
 
-                _log.LogInformation("[AUDIT][DATA-ATTACH] Objeto completo preparado para envío: {Payload}",
+                if (IsDebugEnabled()) _log.LogInformation("[AUDIT][DATA-ATTACH] Objeto completo preparado para envío: {Payload}",
                     JsonConvert.SerializeObject(automationSinisterDataAttachs));
 
                 await AddLogLogicApp(automationMailHeaderFilterDto.OriginMail, automationMailHeaderFilterDto.Subject, automationSinisterDataAttachs.ToJson());
@@ -197,6 +201,12 @@ namespace ExecuteAllProceduresFromSinister
             return bool.TryParse(value, out var enabled) && enabled;
         }
 
+        private static bool IsDebugEnabled()
+        {
+            var value = Environment.GetEnvironmentVariable("EnableDebugLogs");
+            return bool.TryParse(value, out var enabled) && enabled;
+        }
+
         private static async Task AddLogLogicApp(string originMail, string subject, string observations)
         {
             if (!IsApiLogEnabled()) return;
@@ -236,13 +246,13 @@ namespace ExecuteAllProceduresFromSinister
             if (!string.IsNullOrEmpty(originMail))
             {
                 var mailAddress = new MailAddress(originMail);
-                _log.LogInformation("[DEBUG] Email: {Email} | Host: {Host} | Subject: {Subject}", mailAddress.Address, mailAddress.Host, subject);
-                
+                if (IsDebugEnabled()) _log.LogInformation("[DEBUG] Email: {Email} | Host: {Host} | Subject: {Subject}", mailAddress.Address, mailAddress.Host, subject);
+
                 if (string.IsNullOrEmpty(dataReferenceModel.Reference))
                 {
                     var casesSpecificList = Helpers.GetActionsMailSpecificCases();
                     var casesSpecificFilterFromMail = casesSpecificList.FirstOrDefault(x => x.Case.ToLower() == mailAddress.Address.ToLower());
-                    _log.LogInformation("[DEBUG] Specific case found: {Found}", casesSpecificFilterFromMail != null);
+                    if (IsDebugEnabled()) _log.LogInformation("[DEBUG] Specific case found: {Found}", casesSpecificFilterFromMail != null);
                     
                     if (casesSpecificFilterFromMail != null)
                     {
@@ -253,7 +263,7 @@ namespace ExecuteAllProceduresFromSinister
                     {
                         var actionsMailDomainList = Helpers.GetActionsMailDomain();
                         var actionMailDomain = actionsMailDomainList.FirstOrDefault(x => x.Case.ToLower() == mailAddress.Host.ToLower());
-                        _log.LogInformation("[DEBUG] Domain case found: {Found} | Domain: {Domain}", actionMailDomain != null, mailAddress.Host);
+                        if (IsDebugEnabled()) _log.LogInformation("[DEBUG] Domain case found: {Found} | Domain: {Domain}", actionMailDomain != null, mailAddress.Host);
                         if (actionMailDomain != null)
                         {
                             var subjectCaseActionContain = actionMailDomain.Data.Where(x => !string.IsNullOrEmpty(x.ContainMail) && mailAddress.User.ToLower().Contains(x.ContainMail)).ToList();
@@ -272,7 +282,7 @@ namespace ExecuteAllProceduresFromSinister
                             if (!string.IsNullOrEmpty(dataReferenceModel.Reference) && !string.IsNullOrEmpty(actionMailDomain.CanonicalDomain))
                             {
                                 dataReferenceModel.LookupOriginMail = $"{mailAddress.User}@{actionMailDomain.CanonicalDomain}";
-                                _log.LogInformation("[DOMAIN-NORMALIZE] OriginMail normalizado: {Original} → {Normalized}", originMail, dataReferenceModel.LookupOriginMail);
+                                if (IsDebugEnabled()) _log.LogInformation("[DOMAIN-NORMALIZE] OriginMail normalizado: {Original} → {Normalized}", originMail, dataReferenceModel.LookupOriginMail);
                             }
                         }
 
@@ -338,27 +348,27 @@ namespace ExecuteAllProceduresFromSinister
                 Reference = string.Empty,
             };
             
-            // DEBUG: List all patterns for this domain
-            foreach (var item in subjectCaseActionMailList)
+            if (IsDebugEnabled())
             {
-                _log.LogInformation("[DEBUG] Pattern: {Pattern} | Regex: {Regex} | Subject: {Subject}", 
-                    item.PatternRegex, item.Subject ?? "null", item.Subject ?? "null");
+                foreach (var item in subjectCaseActionMailList)
+                    _log.LogInformation("[DEBUG] Pattern: {Pattern} | Regex: {Regex} | Subject: {Subject}",
+                        item.PatternRegex, item.Subject ?? "null", item.Subject ?? "null");
             }
-            
+
             var casePatternRegexMatch = subjectCaseActionMailList.FirstOrDefault(x => !string.IsNullOrEmpty(x.PatternRegex) && Regex.IsMatch(subject, x.PatternRegex, RegexOptions.IgnoreCase));
-            _log.LogInformation("[DEBUG] Regex match found: {Found} | Pattern: {Pattern}", casePatternRegexMatch != null, casePatternRegexMatch?.PatternRegex);
-            
+            if (IsDebugEnabled()) _log.LogInformation("[DEBUG] Regex match found: {Found} | Pattern: {Pattern}", casePatternRegexMatch != null, casePatternRegexMatch?.PatternRegex);
+
             if (casePatternRegexMatch != null)
             {
                 var stringPatternMatch = Regex.Match(subject, casePatternRegexMatch.PatternRegex, RegexOptions.IgnoreCase);
-                _log.LogInformation("[DEBUG] MATCH VALUE: '{Value}' | Length: {Len}", stringPatternMatch.Value, stringPatternMatch.Value.Length);
+                if (IsDebugEnabled()) _log.LogInformation("[DEBUG] MATCH VALUE: '{Value}' | Length: {Len}", stringPatternMatch.Value, stringPatternMatch.Value.Length);
 
                 if (stringPatternMatch != null && stringPatternMatch.Success)
                 {
                     dataReferenceModel.IsGenericTask = casePatternRegexMatch.IsGenericTask;
                     dataReferenceModel.Reference = casePatternRegexMatch.FuncSubject(stringPatternMatch.Value, casePatternRegexMatch.Subject);
                     dataReferenceModel.OnlyLoad = casePatternRegexMatch.OnlyLoad;
-                    _log.LogInformation("[DEBUG] Extracted reference: {Ref}", dataReferenceModel.Reference);
+                    if (IsDebugEnabled()) _log.LogInformation("[DEBUG] Extracted reference: {Ref}", dataReferenceModel.Reference);
                 }
             }
             else

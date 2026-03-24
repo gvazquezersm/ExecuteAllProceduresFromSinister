@@ -38,10 +38,15 @@ namespace ExecuteAllProceduresFromSinister.Common
             lock (_lock)
             {
                 if (_cache != null) return _cache;
-                var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                var path = Path.Combine(dir, "patterns.json");
+                // El runtime de Azure Functions local pone la DLL en bin\Debug\netcoreapp3.1\bin\
+                // pero los archivos de contenido (CopyToOutputDirectory) van a bin\Debug\netcoreapp3.1\
+                // Por eso buscamos en la carpeta del assembly y subimos un nivel si no lo encuentra.
+                var assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                var path = Path.Combine(assemblyDir, "patterns.json");
                 if (!File.Exists(path))
-                    throw new FileNotFoundException($"patterns.json not found at: {path}");
+                    path = Path.Combine(Path.GetDirectoryName(assemblyDir), "patterns.json");
+                if (!File.Exists(path))
+                    throw new FileNotFoundException($"patterns.json not found. Last path tried: {path}");
                 var json = File.ReadAllText(path);
                 _cache = JsonSerializer.Deserialize<PatternsConfig>(json,
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
