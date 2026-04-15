@@ -64,5 +64,13 @@ namespace ExecuteAllProceduresFromSinister.Business.Models
 
         [JsonPropertyName("onlyLoad")]
         public bool OnlyLoad { get; set; }
+
+        /// <summary>
+        /// Si true, el asunto del correo debe empezar DIRECTAMENTE con el patrón (regex),
+        /// sin ningún prefijo (ni RE:, RV:, FW: ni ningún otro carácter).
+        /// Se valida contra el asunto original, no contra el asunto limpiado.
+        /// </summary>
+        [JsonPropertyName("strictStart")]
+        public bool StrictStart { get; set; }
     }
 }

@@ -84,7 +84,7 @@ namespace ExecuteAllProceduresFromSinister.Common
             new DataActionMailModel(c.Keyword, ResolveHelper(c.Helper), c.OnlyLoad, c.IsGenericTask);
 
         private static DataDomainMailModel ToDomainModel(CaseConfig c) =>
-            new DataDomainMailModel(c.Keyword, ResolveHelper(c.Helper), c.ContainMail, c.Regex, c.OnlyLoad, c.IsGenericTask);
+            new DataDomainMailModel(c.Keyword, ResolveHelper(c.Helper), c.ContainMail, c.Regex, c.OnlyLoad, c.IsGenericTask, c.StrictStart);
 
         private static Func<string, string, string> ResolveHelper(string name)
         {

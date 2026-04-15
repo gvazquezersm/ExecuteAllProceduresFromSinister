@@ -1,3 +1,5 @@
+
+
 {
   "version": "1.0",
   "specificEmails": [
@@ -192,6 +194,14 @@
           "containMail": null,
           "isGenericTask": false,
           "onlyLoad": false
+        },
+        {
+          "keyword": "Tramitador Siniestro Automov. -",
+          "helper": "GetFirstElementSplitFromSubject",
+          "regex": null,
+          "containMail": null,
+          "isGenericTask": true,
+          "onlyLoad": false
         }
       ]
     },
@@ -241,6 +251,62 @@
           "regex": "siniestro n.* [0-9]+",
           "containMail": null,
           "isGenericTask": false,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "email": "siniestros.autos@helvetia.es",
+      "description": "Helvetia Siniestros Autos",
+      "cases": [
+        {
+          "keyword": "referencia",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "referencia [a-zA-Z0-9]+",
+          "containMail": null,
+          "isGenericTask": true,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "email": "gestionsiniestrosproduccion@helvetia.es",
+      "description": "Helvetia Gestión Siniestros Producción",
+      "cases": [
+        {
+          "keyword": "exp",
+          "helper": "GetSubjectTrimmed",
+          "regex": "exp[0-9]+\\/[0-9]+\\/[0-9]+\\/[0-9]+",
+          "containMail": null,
+          "isGenericTask": true,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "email": "no-responder@reale.es",
+      "description": "Reale Siniestros Mediador",
+      "cases": [
+        {
+          "keyword": "Siniestro",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro [a-zA-Z0-9]+",
+          "containMail": null,
+          "isGenericTask": true,
+          "onlyLoad": false
+        }
+      ]
+    },
+    {
+      "email": "siniestrosautos@divinaseguros.com",
+      "description": "Divina Seguros Siniestros Autos",
+      "cases": [
+        {
+          "keyword": "Siniestro AU01 ",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "siniestro au01 [0-9]+\\/[0-9]+",
+          "containMail": null,
+          "isGenericTask": true,
           "onlyLoad": false
         }
       ]
@@ -410,6 +476,14 @@
       "canonicalDomain": null,
       "description": "Allianz",
       "cases": [
+        {
+          "keyword": "S-",
+          "helper": "GetRefFromSubjectReplaced",
+          "regex": "s-[a-zA-Z0-9]+",
+          "containMail": "siniestros.extranjeros",
+          "isGenericTask": true,
+          "onlyLoad": false
+        },
         {
           "keyword": "S-",
           "helper": "GetRefFromSubjectReplaced",
@@ -1678,6 +1752,14 @@
       "description": "Generali",
       "cases": [
         {
+          "keyword": "",
+          "helper": "GetSubjectTrimmed",
+          "regex": "[0-9]+\\/449\\(RD023\\)",
+          "containMail": "csm.siniestros.bi",
+          "isGenericTask": true,
+          "onlyLoad": false
+        },
+        {
           "keyword": "TMT",
           "helper": "GetSubjectTrimmed",
           "regex": "[0-9]+\\/TMT",
@@ -1757,7 +1839,8 @@
       "regex": "^vst\\d{10}",
       "containMail": null,
       "isGenericTask": true,
-      "onlyLoad": false
+      "onlyLoad": false,
+      "strictStart": true
     },
     {
       "keyword": "vs",
@@ -1765,7 +1848,8 @@
       "regex": "^vs\\d{10}",
       "containMail": null,
       "isGenericTask": false,
-      "onlyLoad": true
+      "onlyLoad": true,
+      "strictStart": true
     }
   ]
 }

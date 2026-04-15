@@ -11,9 +11,11 @@ using Microsoft.Extensions.Logging;using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -48,11 +50,12 @@ namespace ExecuteAllProceduresFromSinister
                         /// Obtiene la referencia de siniestro/póliza analizando el asunto y el remitente.
                         /// Prioridad: 1. Caso específico por Email | 2. Reglas por Dominio/Palabra clave | 3. Casos generales por Asunto.
                         /// </summary>
+                        var originalSubject = (dataSinisterFilterDto.Subject ?? string.Empty).Trim();
                         var cleanedSubject = System.Text.RegularExpressions.Regex.Replace(
                             dataSinisterFilterDto.Subject ?? string.Empty,
                             @"^(RE|RV|FW|FWD)\s*:\s*", string.Empty,
                             System.Text.RegularExpressions.RegexOptions.IgnoreCase).Trim();
-                        var dataReferenceModel = GetReferenceModelFromSubjectCase(cleanedSubject, dataSinisterFilterDto.OriginMail);
+                        var dataReferenceModel = GetReferenceModelFromSubjectCase(cleanedSubject, dataSinisterFilterDto.OriginMail, originalSubject);
 
                         if (IsDebugEnabled()) _log.LogInformation("[REF_MODEL] Reference: {Ref} | IsGenericTask: {Generic} | OnlyLoad: {Only}",
                             dataReferenceModel?.Reference, dataReferenceModel?.IsGenericTask, dataReferenceModel?.OnlyLoad);
@@ -130,7 +133,7 @@ namespace ExecuteAllProceduresFromSinister
                     GciAlias = sinisterData.GciAlias,
                     Path = sinisterData.Path,
                     SinisterId = sinisterData.SinisterId,
-                    Subject = automationMailHeaderFilterDto.Subject,
+                    Subject = SanitizeSubjectForFileName(automationMailHeaderFilterDto.Subject),
                     Body = automationMailHeaderFilterDto.Body,
                     Attachments = automationMailHeaderFilterDto.Attachments,
                     DateTimeReceived = automationMailHeaderFilterDto.DateTimeReceived,
@@ -183,7 +186,12 @@ namespace ExecuteAllProceduresFromSinister
 
                     result = successCreateTask;
                 }
-                // Si OnlyLoad=true (VS), este bloque se salta → NO se crea ninguna tarea
+                else
+                {
+                    // OnlyLoad=true (VS): solo carga datos, no crea tarea → éxito igualmente
+                    result = true;
+                }
+                // Si OnlyLoad=true (VS), no se crea tarea pero se devuelve Success
             }
             else
             {
@@ -240,7 +248,7 @@ namespace ExecuteAllProceduresFromSinister
         Si aún no hay referencia
         Revisa casos generales basados solo en el asunto(GetAnyCaseOnlySubject) y marca IsSinAlias = true.
         Devuelve el DataReferenceModel resultante, que puede tener la referencia encontrada o estar vacío si no coincidió nada.*/
-        private static DataReferenceModel GetReferenceModelFromSubjectCase(string subject, string originMail)
+        private static DataReferenceModel GetReferenceModelFromSubjectCase(string subject, string originMail, string originalSubject = null)
         {
             var dataReferenceModel = new DataReferenceModel();
             if (!string.IsNullOrEmpty(originMail))
@@ -290,7 +298,7 @@ namespace ExecuteAllProceduresFromSinister
                         if (string.IsNullOrEmpty(dataReferenceModel.Reference))
                         {
                             var anyCaseOnlySubject = Helpers.GetAnyCaseOnlySubject();
-                            dataReferenceModel = GetDataReferenceFromSubjectCaseNotSpecific(subject, anyCaseOnlySubject);
+                            dataReferenceModel = GetDataReferenceFromSubjectCaseNotSpecific(subject, anyCaseOnlySubject, originalSubject);
                             dataReferenceModel.IsSinAlias = true;
                         }
                     }
@@ -341,13 +349,13 @@ namespace ExecuteAllProceduresFromSinister
             return reference;
         }
 
-        private static DataReferenceModel GetDataReferenceFromSubjectCaseNotSpecific(string subject, IEnumerable<DataDomainMailModel> subjectCaseActionMailList)
+        private static DataReferenceModel GetDataReferenceFromSubjectCaseNotSpecific(string subject, IEnumerable<DataDomainMailModel> subjectCaseActionMailList, string originalSubject = null)
         {
             var dataReferenceModel = new DataReferenceModel()
             {
                 Reference = string.Empty,
             };
-            
+
             if (IsDebugEnabled())
             {
                 foreach (var item in subjectCaseActionMailList)
@@ -355,7 +363,20 @@ namespace ExecuteAllProceduresFromSinister
                         item.PatternRegex, item.Subject ?? "null", item.Subject ?? "null");
             }
 
-            var casePatternRegexMatch = subjectCaseActionMailList.FirstOrDefault(x => !string.IsNullOrEmpty(x.PatternRegex) && Regex.IsMatch(subject, x.PatternRegex, RegexOptions.IgnoreCase));
+            if (IsDebugEnabled())
+                foreach (var dbg in subjectCaseActionMailList.Where(x => !string.IsNullOrEmpty(x.PatternRegex)))
+                    _log.LogInformation("[STRICT_DBG] Kw:{Kw} | Regex:{Rx} | StrictStart:{Ss} | CleanMatch:{Cm} | OrigMatch:{Om} | Orig:{Orig}",
+                        dbg.Subject, dbg.PatternRegex, dbg.StrictStart,
+                        Regex.IsMatch(subject, dbg.PatternRegex, RegexOptions.IgnoreCase),
+                        !string.IsNullOrEmpty(originalSubject) && Regex.IsMatch(originalSubject, dbg.PatternRegex, RegexOptions.IgnoreCase),
+                        originalSubject ?? "(null)");
+
+            var casePatternRegexMatch = subjectCaseActionMailList.FirstOrDefault(x =>
+                !string.IsNullOrEmpty(x.PatternRegex) &&
+                Regex.IsMatch(subject, x.PatternRegex, RegexOptions.IgnoreCase) &&
+                // StrictStart: si es true, el asunto ORIGINAL (sin limpiar RE:/RV:) también debe cumplir el regex.
+                // Esto evita que correos reenviados/respondidos (RV: VS..., RE: VST...) se procesen incorrectamente.
+                (!x.StrictStart || (!string.IsNullOrEmpty(originalSubject) && Regex.IsMatch(originalSubject, x.PatternRegex, RegexOptions.IgnoreCase))));
             if (IsDebugEnabled()) _log.LogInformation("[DEBUG] Regex match found: {Found} | Pattern: {Pattern}", casePatternRegexMatch != null, casePatternRegexMatch?.PatternRegex);
 
             if (casePatternRegexMatch != null)
@@ -383,6 +404,33 @@ namespace ExecuteAllProceduresFromSinister
             }
 
             return dataReferenceModel;
+        }
+
+        /// <summary>
+        /// Formatea el asunto del correo para usarlo como nombre de archivo:
+        /// elimina acentos y símbolos inválidos en rutas de fichero.
+        /// </summary>
+        private static string SanitizeSubjectForFileName(string subject)
+        {
+            if (string.IsNullOrEmpty(subject)) return subject;
+
+            // 1. Eliminar acentos descomponiendo los caracteres Unicode
+            var normalized = subject.Normalize(NormalizationForm.FormD);
+            var sb = new StringBuilder(normalized.Length);
+            foreach (var c in normalized)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                    sb.Append(c);
+            }
+
+            // 2. Recomponer y quitar caracteres inválidos en nombres de archivo
+            var clean = sb.ToString().Normalize(NormalizationForm.FormC);
+            clean = Regex.Replace(clean, @"[\\/:*?""<>|]", "_");
+
+            // 3. Colapsar espacios múltiples y recortar
+            clean = Regex.Replace(clean, @"\s+", " ").Trim();
+
+            return clean;
         }
 
         /// <summary>
